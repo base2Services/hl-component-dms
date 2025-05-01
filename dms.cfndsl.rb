@@ -16,7 +16,7 @@ CloudFormation do
   IAM_Role(:DmsVpcRole) {
     RoleName "dms-vpc-role"
     AssumeRolePolicyDocument service_assume_role_policy('dms')
-    ManagedPolicyArns ["arn:aws:iam::aws:policy/service-role/AmazonDMSCloudWatchLogsRole"]
+    ManagedPolicyArns ["arn:aws:iam::aws:policy/service-role/AmazonDMSVPCManagementRole"]
     Tags dms_tags
   }
 
