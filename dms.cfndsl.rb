@@ -5,8 +5,16 @@ CloudFormation do
   dms_tags.push({ Key: 'Environment', Value: Ref(:EnvironmentName) })
   dms_tags.push({ Key: 'EnvironmentType', Value: Ref(:EnvironmentType) })
   dms_tags.push(*tags.map {|k,v| {Key: FnSub(k), Value: FnSub(v)}})
+
+  IAM_Role(:DmsCloudwatchLogsRole) {
+    RoleName "dms-cloudwatch-logs-role"
+    AssumeRolePolicyDocument service_assume_role_policy('dms')
+    ManagedPolicyArns ["arn:aws:iam::aws:policy/service-role/AmazonDMSCloudWatchLogsRole"]
+    Tags dms_tags
+  }
   
-  IAM_Role(:Role) {
+  IAM_Role(:DmsVpcRole) {
+    RoleName "dms-vpc-role"
     AssumeRolePolicyDocument service_assume_role_policy('dms')
     ManagedPolicyArns ["arn:aws:iam::aws:policy/service-role/AmazonDMSCloudWatchLogsRole"]
     Tags dms_tags
